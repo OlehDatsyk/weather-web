@@ -89,7 +89,7 @@ python -m venv venv
 venv\Scripts\activate.bat
 ```
 
-> In VS Code, once the venv is created, use **Ctrl+Shift+P → "Python: Select Interpreter"**
+> In VS Code, once the venv is created, use **Ctrl+Shift+P -> "Python: Select Interpreter"**
 > and choose the `venv` interpreter so the editor and terminal stay in sync.
 
 ### 3. Install dependencies
