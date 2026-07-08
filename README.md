@@ -10,18 +10,18 @@ mode, smooth animations, and live weather data from the OpenWeatherMap API.
 
 ## ✨ Features
 
-- 🎨 **Glassmorphism UI** — frosted-glass cards, blurred backgrounds, animated gradient blobs
-- 🌗 **Dark Mode** — toggle with persisted preference (localStorage)
-- 📱 **Fully Responsive** — CSS Grid + Flexbox layout, mobile-first breakpoints
-- 🔍 **Live Search** — search-as-you-type input with clear button and shake-on-empty animation
-- 📍 **Geolocation Support** — "Use my location" button for instant local weather
-- 🌡️ **Unit Toggle** — switch between °C and °F on the fly
-- ⏳ **Loading Spinner** — smooth loading indicator while fetching data
-- ⚠️ **Error Handling** — graceful error states with retry button (invalid city, network issues, etc.)
-- 🖼️ **Weather Icons** — dynamic icons from OpenWeatherMap matching current conditions
-- 📊 **Rich Weather Details** — city, country, temperature, feels like, humidity, pressure,
+- 🎨 **Glassmorphism UI** - frosted-glass cards, blurred backgrounds, animated gradient blobs
+- 🌗 **Dark Mode** - toggle with persisted preference (localStorage)
+- 📱 **Fully Responsive** - CSS Grid + Flexbox layout, mobile-first breakpoints
+- 🔍 **Live Search** - search-as-you-type input with clear button and shake-on-empty animation
+- 📍 **Geolocation Support** - "Use my location" button for instant local weather
+- 🌡️ **Unit Toggle** - switch between °C and °F on the fly
+- ⏳ **Loading Spinner** - smooth loading indicator while fetching data
+- ⚠️ **Error Handling** - graceful error states with retry button (invalid city, network issues, etc.)
+- 🖼️ **Weather Icons** - dynamic icons from OpenWeatherMap matching current conditions
+- 📊 **Rich Weather Details** - city, country, temperature, feels like, humidity, pressure,
   wind, visibility, sunrise, sunset, date & time
-- 🧱 **Clean Architecture** — Flask routes separated from business logic (`services/` layer)
+- 🧱 **Clean Architecture** - Flask routes separated from business logic (`services/` layer)
 
 ---
 
@@ -29,20 +29,20 @@ mode, smooth animations, and live weather data from the OpenWeatherMap API.
 
 ```
 weather-web/
-├── app.py                     # Flask application & routes
+├── app.py # Flask application & routes
 ├── services/
 │   ├── __init__.py
-│   └── weather_service.py     # OpenWeatherMap API integration & data normalization
+│   └── weather_service.py # OpenWeatherMap API integration & data normalization
 ├── templates/
-│   └── index.html             # Main single-page dashboard
+│   └── index.html # Main single-page dashboard
 ├── static/
 │   ├── css/
-│   │   └── style.css          # Glassmorphism styling, dark mode, animations
+│   │   └── style.css # Glassmorphism styling, dark mode, animations
 │   ├── js/
-│   │   └── script.js          # Fetch API calls, state management, UI logic
-│   └── images/                # (optional) static image assets
-├── requirements.txt           # Python dependencies
-├── .env.example                # Environment variable template
+│   │   └── script.js # Fetch API calls, state management, UI logic
+│   └── images/ # (optional) static image assets
+├── requirements.txt # Python dependencies
+├── .env.example # Environment variable template
 ├── .gitignore
 └── README.md
 ```
@@ -52,7 +52,7 @@ weather-web/
 ## 🔧 Prerequisites
 
 - **Python 3.9+** installed
-- A free **OpenWeatherMap API key** — sign up at
+- A free **OpenWeatherMap API key** - sign up at
   [https://home.openweathermap.org/users/sign_up](https://home.openweathermap.org/users/sign_up)
   and grab your key from [API keys](https://home.openweathermap.org/api_keys)
   > ⚠️ New API keys can take up to a couple of hours to activate.
@@ -130,7 +130,7 @@ You should see output similar to:
 
 ### 6. Open in your browser
 
-Navigate to **http://localhost:5000** — search for any city and enjoy! 🎉
+Navigate to **http://localhost:5000** - search for any city and enjoy! 🎉
 
 ---
 
@@ -190,7 +190,7 @@ GET /api/weather?city=London&units=metric
 ```
 
 ### `GET /api/health`
-Simple health check — returns `{ "status": "ok" }`.
+Simple health check - returns `{ "status": "ok" }`.
 
 ---
 
@@ -207,13 +207,13 @@ Simple health check — returns `{ "status": "ok" }`.
 
 ## 🧯 Troubleshooting
 
-- **"Weather API key is not configured"** — make sure you created a `.env` file (not just
+- **"Weather API key is not configured"** - make sure you created a `.env` file (not just
   `.env.example`) and that `OPENWEATHER_API_KEY` is set correctly.
-- **"Invalid API key"** — new OpenWeatherMap keys can take up to ~2 hours to activate after
+- **"Invalid API key"** - new OpenWeatherMap keys can take up to ~2 hours to activate after
   signup.
-- **City not found** — try adding a country code, e.g. `Springfield,US`.
-- **Port already in use** — change `PORT` in `.env` or stop the process using port 5000.
-- **CSS/JS not updating** — hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R) to bypass
+- **City not found** - try adding a country code, e.g. `Springfield,US`.
+- **Port already in use** - change `PORT` in `.env` or stop the process using port 5000.
+- **CSS/JS not updating** - hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R) to bypass
   cache, or disable cache in DevTools while developing.
 
 ---
@@ -304,7 +304,7 @@ python app.py
 That's macOS/Linux syntax. On Windows PowerShell use `venv\Scripts\Activate.ps1` instead.
 
 **`No module named 'flask'` or similar import errors**
-Confirm `(venv)` is shown in your prompt, then run `pip install -r requirements.txt` again — this error usually means `pip install` ran against a different Python than the one running `app.py`.
+Confirm `(venv)` is shown in your prompt, then run `pip install -r requirements.txt` again - this error usually means `pip install` ran against a different Python than the one running `app.py`.
 
 **"Weather API key is not configured" / "Invalid API key"**
 Your `.env` still has the placeholder text, has a duplicate `OPENWEATHER_API_KEY` line, the key hasn't finished activating yet (can take up to a couple of hours), or you edited `.env` without restarting `python app.py`. Fix `.env`, save it, stop the server (`Ctrl+C`), and rerun `python app.py`.
