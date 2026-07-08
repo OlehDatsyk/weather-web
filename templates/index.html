@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skyline Weather</title>
+  <meta name="description" content="A beautiful, modern weather dashboard." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#9925;</text></svg>" />
+</head>
+<body>
+  <!-- Animated gradient background -->
+  <div class="bg-decoration">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">⛅</span>
+        <span class="brand-name">Skyline Weather</span>
+      </div>
+
+      <div class="header-actions">
+        <div class="unit-toggle" id="unitToggle" role="group" aria-label="Temperature unit toggle">
+          <button type="button" class="unit-btn active" data-unit="metric">°C</button>
+          <button type="button" class="unit-btn" data-unit="imperial">°F</button>
+        </div>
+
+        <button type="button" id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg id="sunIcon" class="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 2.5V4.5M12 19.5V21.5M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M2.5 12H4.5M19.5 12H21.5M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <svg id="moonIcon" class="theme-icon hidden" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="app-main">
+      <!-- Search -->
+      <section class="search-section">
+        <form id="searchForm" class="search-form" autocomplete="off">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              id="cityInput"
+              class="search-input"
+              placeholder="Search for a city... (e.g. London, Tokyo, New York)"
+              aria-label="City name"
+              required
+            />
+            <button type="button" id="clearBtn" class="clear-btn hidden" aria-label="Clear search">✕</button>
+          </div>
+          <button type="submit" class="search-btn">
+            <span class="btn-text">Search</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+
+        <button type="button" id="geoBtn" class="geo-btn">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C12 22 19 16 19 10.5C19 6.35786 15.6421 3 12 3C8.35786 3 5 6.35786 5 10.5C5 16 12 22 12 22Z" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="10.5" r="2.5" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+          Use my location
+        </button>
+      </section>
+
+      <!-- Loading spinner -->
+      <div id="loadingState" class="state-panel hidden">
+        <div class="spinner"></div>
+        <p>Fetching weather data...</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="errorState" class="state-panel error-panel hidden">
+        <div class="error-icon">⚠️</div>
+        <p id="errorMessage">Something went wrong.</p>
+        <button type="button" id="retryBtn" class="retry-btn">Try Again</button>
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyState" class="state-panel empty-panel">
+        <div class="empty-icon">🌤️</div>
+        <h2>Search for a city to see the weather</h2>
+        <p>Try "London", "Tokyo", "New York", or "Sydney"</p>
+      </div>
+
+      <!-- Weather result -->
+      <section id="weatherResult" class="weather-result hidden">
+        <!-- Primary card -->
+        <div class="glass-card main-card">
+          <div class="main-card-top">
+            <div class="location-block">
+              <h1 id="cityName" class="city-name">--</h1>
+              <p id="countryDate" class="country-date">--</p>
+              <p id="currentTime" class="current-time">--</p>
+            </div>
+            <div class="icon-block">
+              <img id="weatherIcon" src="" alt="Weather icon" class="weather-icon" />
+              <p id="weatherDescription" class="weather-description">--</p>
+            </div>
+          </div>
+
+          <div class="main-card-bottom">
+            <div class="temp-block">
+              <span id="temperature" class="temperature">--</span>
+              <span class="temp-unit" id="tempUnitLabel">°C</span>
+            </div>
+            <div class="feels-like">
+              Feels like <span id="feelsLike">--</span><span id="feelsLikeUnit">°C</span>
+            </div>
+            <div class="temp-range">
+              <span>H: <span id="tempMax">--</span>°</span>
+              <span>L: <span id="tempMin">--</span>°</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details grid -->
+        <div class="details-grid">
+          <div class="glass-card detail-card">
+            <div class="detail-icon">💧</div>
+            <p class="detail-label">Humidity</p>
+            <p class="detail-value"><span id="humidity">--</span>%</p>
+          </div>
+
+          <div class="glass-card detail-card">
+            <div class="detail-icon">🌬️</div>
+            <p class="detail-label">Wind</p>
+            <p class="detail-value"><span id="windSpeed">--</span> <span id="windUnit">m/s</span></p>
+          </div>
+
+          <div class="glass-card detail-card">
+            <div class="detail-icon">🧭</div>
+            <p class="detail-label">Pressure</p>
+            <p class="detail-value"><span id="pressure">--</span> hPa</p>
+          </div>
+
+          <div class="glass-card detail-card">
+            <div class="detail-icon">👁️</div>
+            <p class="detail-label">Visibility</p>
+            <p class="detail-value"><span id="visibility">--</span> km</p>
+          </div>
+
+          <div class="glass-card detail-card">
+            <div class="detail-icon">🌅</div>
+            <p class="detail-label">Sunrise</p>
+            <p class="detail-value" id="sunrise">--</p>
+          </div>
+
+          <div class="glass-card detail-card">
+            <div class="detail-icon">🌇</div>
+            <p class="detail-label">Sunset</p>
+            <p class="detail-value" id="sunset">--</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Data provided by <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">OpenWeatherMap</a> · Built with Flask &amp; ❤️</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

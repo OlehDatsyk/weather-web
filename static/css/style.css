@@ -1,0 +1,763 @@
+/* ==========================================================================
+   Skyline Weather — Stylesheet
+   Modern glassmorphism UI with light/dark themes, CSS Grid & Flexbox,
+   and smooth animations.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Variables (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Light theme palette */
+  --bg-gradient-1: #a1c4fd;
+  --bg-gradient-2: #c2e9fb;
+  --bg-gradient-3: #fbc2eb;
+
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-strong: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-shadow: rgba(31, 38, 135, 0.18);
+
+  --text-primary: #1c2331;
+  --text-secondary: #4a5568;
+  --text-muted: #6b7280;
+
+  --accent: #4f6ef7;
+  --accent-strong: #3452e0;
+  --accent-contrast: #ffffff;
+
+  --danger: #e0455b;
+  --danger-bg: rgba(224, 69, 91, 0.12);
+
+  --input-bg: rgba(255, 255, 255, 0.6);
+  --input-border: rgba(255, 255, 255, 0.7);
+
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  --transition-fast: 0.18s ease;
+  --transition-base: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --blur: 18px;
+
+  --font-display: "Poppins", "Inter", sans-serif;
+  --font-body: "Inter", "Poppins", sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg-gradient-1: #0f1226;
+  --bg-gradient-2: #1a1f3d;
+  --bg-gradient-3: #2b2154;
+
+  --glass-bg: rgba(24, 27, 51, 0.45);
+  --glass-bg-strong: rgba(24, 27, 51, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+
+  --text-primary: #f2f4ff;
+  --text-secondary: #c3c7e0;
+  --text-muted: #9195b8;
+
+  --accent: #7c9bff;
+  --accent-strong: #5c7dff;
+  --accent-contrast: #0f1226;
+
+  --danger: #ff7b8f;
+  --danger-bg: rgba(255, 123, 143, 0.14);
+
+  --input-bg: rgba(255, 255, 255, 0.06);
+  --input-border: rgba(255, 255, 255, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Base
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-1),
+    var(--bg-gradient-2),
+    var(--bg-gradient-3)
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 18s ease infinite;
+  transition: background var(--transition-slow);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Background Decoration (animated blobs)
+   -------------------------------------------------------------------------- */
+.bg-decoration {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  animation: floatBlob 20s ease-in-out infinite;
+}
+
+.blob-1 {
+  width: 380px;
+  height: 380px;
+  background: #7c9bff;
+  top: -100px;
+  left: -80px;
+  animation-delay: 0s;
+}
+
+.blob-2 {
+  width: 320px;
+  height: 320px;
+  background: #fbc2eb;
+  bottom: -100px;
+  right: -60px;
+  animation-delay: -6s;
+}
+
+.blob-3 {
+  width: 260px;
+  height: 260px;
+  background: #a1c4fd;
+  top: 40%;
+  left: 60%;
+  animation-delay: -12s;
+}
+
+@keyframes floatBlob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-30px, 25px) scale(0.95); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Layout
+   -------------------------------------------------------------------------- */
+.app {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 4vw, 40px) 40px;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Header
+   -------------------------------------------------------------------------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+
+.brand-icon {
+  font-size: 1.6rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.unit-toggle {
+  display: flex;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+}
+
+.unit-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.unit-btn.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow: 0 2px 8px rgba(79, 110, 247, 0.35);
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.icon-btn:hover {
+  transform: scale(1.08) rotate(10deg);
+  background: var(--glass-bg-strong);
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-primary);
+  transition: opacity var(--transition-fast);
+}
+
+/* --------------------------------------------------------------------------
+   6. Search Section
+   -------------------------------------------------------------------------- */
+.search-section {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.search-form {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.search-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-pill);
+  padding: 0 16px;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.search-box:focus-within {
+  box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.28);
+  border-color: var(--accent);
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 14px 10px;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.clear-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  transition: background var(--transition-fast);
+}
+
+.clear-btn:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: var(--accent-contrast);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 20px rgba(79, 110, 247, 0.35);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(79, 110, 247, 0.45);
+}
+
+.search-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.search-btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+
+.geo-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.geo-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.geo-btn:hover {
+  background: var(--glass-bg);
+  color: var(--accent);
+}
+
+/* Shake animation for invalid search */
+.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* --------------------------------------------------------------------------
+   7. Glass Card (shared)
+   -------------------------------------------------------------------------- */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: background var(--transition-base), border-color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+/* --------------------------------------------------------------------------
+   8. State Panels (loading / error / empty)
+   -------------------------------------------------------------------------- */
+.state-panel {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 48px 32px;
+  color: var(--text-secondary);
+  animation: fadeInUp var(--transition-base);
+}
+
+.empty-panel .empty-icon {
+  font-size: 3.2rem;
+  margin-bottom: 6px;
+  animation: floatIcon 3.5s ease-in-out infinite;
+}
+
+.empty-panel h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.empty-panel p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.spinner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid var(--glass-border);
+  border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-panel {
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(224, 69, 91, 0.25);
+}
+
+.error-icon {
+  font-size: 2.4rem;
+}
+
+.retry-btn {
+  margin-top: 6px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--danger);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.retry-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------------------------
+   9. Weather Result
+   -------------------------------------------------------------------------- */
+.weather-result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeInUp var(--transition-base);
+}
+
+.main-card {
+  padding: 36px clamp(20px, 5vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.main-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.location-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.city-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.country-date {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.current-time {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.icon-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.weather-icon {
+  width: 110px;
+  height: 110px;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.15));
+  animation: floatIcon 4s ease-in-out infinite;
+}
+
+.weather-description {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.main-card-bottom {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.temp-block {
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.temperature {
+  font-size: clamp(3rem, 8vw, 4.2rem);
+  line-height: 1;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.temp-unit {
+  font-size: 1.6rem;
+  margin-top: 6px;
+  color: var(--text-secondary);
+}
+
+.feels-like {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.temp-range {
+  display: flex;
+  gap: 14px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------------------------
+   10. Details Grid
+   -------------------------------------------------------------------------- */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px;
+}
+
+.detail-card:hover {
+  transform: translateY(-4px);
+}
+
+.detail-icon {
+  font-size: 1.5rem;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detail-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   11. Footer
+   -------------------------------------------------------------------------- */
+.app-footer {
+  text-align: center;
+  padding-top: 32px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.app-footer a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   12. Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-btn {
+    padding: 14px 0;
+    justify-content: center;
+  }
+
+  .main-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .icon-block {
+    align-self: center;
+  }
+
+  .main-card-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .temp-range {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. Scrollbar polish (optional nicety)
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: var(--radius-pill);
+}
