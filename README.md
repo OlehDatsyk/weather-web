@@ -103,8 +103,8 @@ pip install -r requirements.txt
 Copy the example file and add your API key:
 
 ```bash
-cp .env.example .env      # macOS/Linux
-copy .env.example .env    # Windows
+cp .env.example .env # macOS/Linux
+copy .env.example .env # Windows
 ```
 
 Then open `.env` and set:
@@ -137,9 +137,9 @@ Navigate to **http://localhost:5000** - search for any city and enjoy! 🎉
 ## 🖥️ Running via Flask CLI (alternative)
 
 ```bash
-export FLASK_APP=app.py        # macOS/Linux
-set FLASK_APP=app.py           # Windows CMD
-$env:FLASK_APP="app.py"        # Windows PowerShell
+export FLASK_APP=app.py # macOS/Linux
+set FLASK_APP=app.py # Windows CMD
+$env:FLASK_APP="app.py" # Windows PowerShell
 
 flask run
 ```
