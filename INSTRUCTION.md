@@ -218,13 +218,13 @@ python app.py
 
 You should see output similar to:
 ```
- * Running on http://127.0.0.1:5000
+ * Running on http://127.0.0.1:1022
 ```
 
 Now open your web browser and go to:
 
 ```
-http://127.0.0.1:5000
+http://127.0.0.1:1022
 ```
 
 You should see the Skyline Weather dashboard.
@@ -237,13 +237,13 @@ To stop the app, click back into the terminal and press `Ctrl+C`.
 
 ## 12. Testing the Application
 
-1. With the app running, go to `http://127.0.0.1:5000` in your browser.
+1. With the app running, go to `http://127.0.0.1:1022` in your browser.
 2. Type a well-known city name (e.g., "London") into the search box and press Enter.
 3. You should see a weather card appear with temperature, description, humidity, wind, etc.
 4. Click the **°C / °F** toggle to confirm units switch correctly.
 5. Click the **location/geolocation button** and allow location access when your browser prompts you - it should show weather for your current location.
 6. Click the **dark mode toggle** (sun/moon icon) to confirm the theme switches and stays saved on reload.
-7. As a quick backend health check, visit `http://127.0.0.1:5000/api/health` directly in your browser - you should see:
+7. As a quick backend health check, visit `http://127.0.0.1:1022/api/health` directly in your browser - you should see:
    ```
    {"status": "ok"}
    ```
@@ -291,8 +291,8 @@ Your OpenWeatherMap key hasn't activated yet (can take up to ~1 hour after signu
 **"City ... was not found"**
 Check the spelling, or add a country code, e.g. `London,GB`.
 
-**Port 5000 already in use**
-Another program is using that port. Either close it, or open `.env` and change `PORT=5000` to `PORT=5050` (or any free number), then restart the app.
+**Port 1022 already in use**
+Another program is using that port. Either close it, or open `.env` and change `PORT=1022` to `PORT=5050` (or any free number), then restart the app.
 
 **Nothing happens when double-clicking `Start App (Mac).command`**
 macOS may block the file from running the first time. Right-click the file -> **Open** -> confirm "Open" in the security dialog. You only need to do this once.
@@ -308,7 +308,7 @@ No. OpenWeatherMap's free tier is enough for this project.
 Yes - closing it stops the Flask server, and the website will stop working.
 
 **Can I use this on my phone?**
-The app runs on your computer; you can access it from your phone's browser if both devices are on the same Wi-Fi network, by visiting `http://<your-computer's-local-IP>:5000` instead of `127.0.0.1`.
+The app runs on your computer; you can access it from your phone's browser if both devices are on the same Wi-Fi network, by visiting `http://<your-computer's-local-IP>:1022` instead of `127.0.0.1`.
 
 **Why does the app ask for my location?**
 Only to fetch weather for where you currently are, if you click the "Use my location" button. Location is never sent anywhere except directly into the weather lookup - the app doesn't store or share it.

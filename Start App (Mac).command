@@ -7,9 +7,9 @@
 # Move into the folder this script lives in
 cd "$(dirname "$0")" || exit 1
 
-echo "============================================================"
-echo "  Skyline Weather - Startup"
-echo "============================================================"
+echo "======================================================="
+echo "  Skyline Weather - Startup (Was made by Oleh Datsyk)"
+echo "======================================================="
 echo ""
 
 # ----------------------------------------------------------------------
@@ -121,14 +121,14 @@ echo ""
 echo "[6/6] Starting Skyline Weather..."
 echo ""
 echo "============================================================"
-echo "  The app will open at: http://127.0.0.1:5000"
+echo "  The app will open at: http://127.0.0.1:1022"
 echo "  Keep this window open while using the app."
 echo "  Press CTRL+C in this window to stop the server."
 echo "============================================================"
 echo ""
 
 # Open the default browser to the app's URL after a short delay
-( sleep 2 && open "http://127.0.0.1:5000" ) &
+( sleep 2 && open "http://127.0.0.1:1022" ) &
 
 python app.py
 STATUS=$?

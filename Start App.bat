@@ -8,9 +8,9 @@ setlocal enabledelayedexpansion
 title Skyline Weather - Starting...
 cd /d "%~dp0"
 
-echo ============================================================
-echo   Skyline Weather - Startup
-echo ============================================================
+echo =======================================================
+echo   Skyline Weather - Startup (Was made by Oleh Datsyk)
+echo =======================================================
 echo.
 
 REM ----------------------------------------------------------------------
@@ -114,13 +114,13 @@ REM ----------------------------------------------------------------------
 echo [6/6] Starting Skyline Weather...
 echo.
 echo ============================================================
-echo   The app will open at: http://127.0.0.1:5000
+echo   The app will open at: http://127.0.0.1:1022
 echo   Keep this window open while using the app.
 echo   Press CTRL+C in this window to stop the server.
 echo ============================================================
 echo.
 
-start "" "http://127.0.0.1:5000"
+start "" "http://127.0.0.1:1022"
 python app.py
 
 REM If app.py exits with an error, keep the window open so the user can read it

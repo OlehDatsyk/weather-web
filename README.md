@@ -112,7 +112,7 @@ Then open `.env` and set:
 ```env
 OPENWEATHER_API_KEY=your_actual_api_key_here
 FLASK_DEBUG=True
-PORT=5000
+PORT=1022
 ```
 
 ### 5. Run the application
@@ -124,13 +124,13 @@ python app.py
 You should see output similar to:
 
 ```
- * Running on http://0.0.0.0:5000
+ * Running on http://0.0.0.0:1022
  * Debug mode: on
 ```
 
 ### 6. Open in your browser
 
-Navigate to **http://localhost:5000** - search for any city and enjoy! 🎉
+Navigate to **http://localhost:1022** - search for any city and enjoy! 🎉
 
 ---
 
@@ -212,7 +212,7 @@ Simple health check - returns `{ "status": "ok" }`.
 - **"Invalid API key"** - new OpenWeatherMap keys can take up to ~2 hours to activate after
   signup.
 - **City not found** - try adding a country code, e.g. `Springfield,US`.
-- **Port already in use** - change `PORT` in `.env` or stop the process using port 5000.
+- **Port already in use** - change `PORT` in `.env` or stop the process using port 1022.
 - **CSS/JS not updating** - hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R) to bypass
   cache, or disable cache in DevTools while developing.
 
@@ -224,7 +224,7 @@ For production deployment, run behind a WSGI server such as Gunicorn instead of 
 dev server:
 
 ```bash
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+gunicorn -w 4 -b 0.0.0.0:1022 app:app
 ```
 
 Also remember to set `FLASK_DEBUG=False` in your production `.env`.
@@ -267,7 +267,7 @@ In the `.env` file that opens, fill in and **save**:
 ```
 OPENWEATHER_API_KEY=<your real OpenWeatherMap key>
 FLASK_DEBUG=True
-PORT=5000
+PORT=1022
 ```
 
 Make sure there is only **one** `OPENWEATHER_API_KEY=` line, and it is not
@@ -279,7 +279,7 @@ Then run the app:
 python app.py
 ```
 
-Ctrl+click the printed link, or open **http://localhost:5000** manually.
+Ctrl+click the printed link, or open **http://localhost:1022** manually.
 
 ### Every time you come back later
 
@@ -310,7 +310,7 @@ Confirm `(venv)` is shown in your prompt, then run `pip install -r requirements.
 Your `.env` still has the placeholder text, has a duplicate `OPENWEATHER_API_KEY` line, the key hasn't finished activating yet (can take up to a couple of hours), or you edited `.env` without restarting `python app.py`. Fix `.env`, save it, stop the server (`Ctrl+C`), and rerun `python app.py`.
 
 **Port already in use**
-Something else is already listening on port 5000. Either stop that process, or change `PORT=5000` to a different value (e.g. `PORT=5050`) in `.env`, save, and restart.
+Something else is already listening on port 1022. Either stop that process, or change `PORT=1022` to a different value (e.g. `PORT=5050`) in `.env`, save, and restart.
 
 **CSS/JS changes not showing up**
 Hard refresh the browser with `Ctrl+Shift+R`, or open DevTools and disable cache while the Network tab is open.
