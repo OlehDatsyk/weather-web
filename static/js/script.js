@@ -1,5 +1,5 @@
 /**
- * Skyline Weather — Frontend Application Logic
+ * Skyline Weather - Frontend Application Logic
  * ---------------------------------------------
  * Handles:
  *  - Fetching weather data from the Flask backend (/api/weather)

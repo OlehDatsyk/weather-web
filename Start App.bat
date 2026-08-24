@@ -114,13 +114,13 @@ REM ----------------------------------------------------------------------
 echo [6/6] Starting Skyline Weather...
 echo.
 echo ============================================================
-echo   The app will open at: http://127.0.0.1:1022
+echo   The app will open at: http://127.0.0.1:8000
 echo   Keep this window open while using the app.
 echo   Press CTRL+C in this window to stop the server.
 echo ============================================================
 echo.
 
-start "" "http://127.0.0.1:1022"
+start "" "http://127.0.0.1:8000"
 python app.py
 
 REM If app.py exits with an error, keep the window open so the user can read it

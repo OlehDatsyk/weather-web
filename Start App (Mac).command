@@ -121,14 +121,14 @@ echo ""
 echo "[6/6] Starting Skyline Weather..."
 echo ""
 echo "============================================================"
-echo "  The app will open at: http://127.0.0.1:1022"
+echo "  The app will open at: http://127.0.0.1:8000"
 echo "  Keep this window open while using the app."
 echo "  Press CTRL+C in this window to stop the server."
 echo "============================================================"
 echo ""
 
 # Open the default browser to the app's URL after a short delay
-( sleep 2 && open "http://127.0.0.1:1022" ) &
+( sleep 2 && open "http://127.0.0.1:8000" ) &
 
 python app.py
 STATUS=$?

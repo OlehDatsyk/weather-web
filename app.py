@@ -103,5 +103,5 @@ def server_error(_e):
 # --------------------------------------------------------------------------
 if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "True") == "True"
-    port = int(os.getenv("PORT", 1022))
+    port = int(os.getenv("PORT", 8000))
     app.run(debug=debug_mode, host="0.0.0.0", port=port)
